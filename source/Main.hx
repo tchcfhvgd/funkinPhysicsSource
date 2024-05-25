@@ -23,6 +23,11 @@ import sys.io.File;
 import sys.io.Process;
 #end
 
+#if android
+import android.content.Context;
+import android.os.Build;
+#end
+
 using StringTools;
 
 class Main extends Sprite
@@ -93,6 +98,15 @@ class Main extends Sprite
 
 	private function setupGame():Void
 	{
+		#if android
+		if (VERSION.SDK_INT > 30)
+			Sys.setCwd(Path.addTrailingSlash(Context.getObbDir()));
+		else
+			Sys.setCwd(Path.addTrailingSlash(Context.getExternalFilesDir()));
+		#elseif ios
+		Sys.setCwd(System.documentsDirectory);
+		#end
+		
 		var stageWidth:Int = Lib.current.stage.stageWidth;
 		var stageHeight:Int = Lib.current.stage.stageHeight;
 
@@ -107,8 +121,7 @@ class Main extends Sprite
 	
 		ClientPrefs.loadDefaultKeys();
 		addChild(new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen));
-
-		#if !mobile
+		
 		fpsVar = new FPS(10, 3, 0x00FFFF);
 		addChild(fpsVar);
 		Lib.current.stage.align = "tl";
@@ -116,7 +129,6 @@ class Main extends Sprite
 		if(fpsVar != null) {
 			fpsVar.visible = ClientPrefs.showFPS;
 		}
-		#end
 
 		#if html5
 		FlxG.autoPause = false;
@@ -157,8 +169,8 @@ class Main extends Sprite
 
 		errMsg += "\nUncaught Error: " + e.error + "\nPlease report this error to the GitHub page: https://github.com/ShadowMario/FNF-PsychEngine\n\n> Crash Handler written by: sqirra-rng";
 
-		if (!FileSystem.exists("./crash/"))
-			FileSystem.createDirectory("./crash/");
+		if (!FileSystem.exists("crash/"))
+			FileSystem.createDirectory("crash/");
 
 		File.saveContent(path, errMsg + "\n");
 
@@ -166,7 +178,9 @@ class Main extends Sprite
 		Sys.println("Crash dump saved in " + Path.normalize(path));
 
 		Application.current.window.alert(errMsg, "Error!");
+		#if desktop
 		DiscordClient.shutdown();
+		#end
 		Sys.exit(1);
 	}
 	#end
