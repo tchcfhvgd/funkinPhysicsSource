@@ -5,7 +5,7 @@ import flixel.FlxG;
 import openfl.Lib;
 import openfl.events.Event;
 import sys.FileSystem;
-import hxcodec.vlc.VLCBitmap;
+import vlc.VLCBitmap;
 
 /**
  * TOP TEN STUPIDEST FUCKING THINGS IVE DONE FOR FUNKIN PHYSICS NUMBER 1 THIS
