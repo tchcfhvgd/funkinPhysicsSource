@@ -5,7 +5,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.FlxGraphic;
 import flixel.util.FlxColor;
-import hxcodec.VideoHandler;
+import VideoHandler;
 
 /**
  * THIS IS LITERALLY JUST VIDEOSPRITE THAT USES VIDEOHANDLERVOLFIX INSTEAD I HATE THIS BUT I WAS OUT OF OPTIONS IM GOING TO FIX THIS BETTER BUT MEANWHILE IMMA KMS
